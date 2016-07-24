@@ -157,5 +157,11 @@ module Render =
 
     let copy (texture:SDL.Texture.Texture) (srcrect:SDL.Geometry.Rectangle option) (dstrect:SDL.Geometry.Rectangle option) (renderer:Renderer) =
         SDL.Geometry.withSDLRectPointer(fun src -> SDL.Geometry.withSDLRectPointer(fun dst -> 0 = Native.SDL_RenderCopy(renderer.Pointer,texture.Pointer,src,dst)) dstrect) srcrect
-
     
+    let drawLine (p1:SDL.Geometry.Point, p2:SDL.Geometry.Point) (renderer:Renderer) =
+        Native.SDL_RenderDrawLine(renderer.Pointer, int p1.X, int p1.Y, int p2.X, int p2.Y)
+    
+    let drawLines (points:SDL.Geometry.Point []) (renderer:Renderer) =
+        let native = System.Runtime.InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(points,0)
+        let sss = new IntPtr(native.ToPointer())
+        Native.SDL_RenderDrawLines(renderer.Pointer, sss, points.Length-1)

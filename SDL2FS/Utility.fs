@@ -28,6 +28,15 @@ module Utility =
     module internal Native =
         [<DllImport(@"SDL2.dll", CallingConvention = CallingConvention.Cdecl)>]
         extern void SDL_free(IntPtr mem);
+        [<DllImport(@"SDL2.dll", CallingConvention = CallingConvention.Cdecl)>]
+        extern System.UInt32 SDL_GetTicks()
+        [<DllImport(@"SDL2.dll", CallingConvention = CallingConvention.Cdecl)>]
+        extern void SDL_Delay(System.UInt32 ms)
+
+    
+    let getTicks() = Native.SDL_GetTicks()
+    
+    let delay ms = Native.SDL_Delay ms
 
     let private allocString (encoder:string->byte[]) (text:string) =
         let bytes = encoder(text)
